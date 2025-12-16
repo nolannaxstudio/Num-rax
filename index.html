@@ -2,49 +2,89 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Radio Kinzora</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Radio</title>
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-    text-align: center;
-}
-p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-}
-audio {
-    width: 80%;
-    max-width: 500px;
-    outline: none;
-}
-footer {
-    position: absolute;
-    bottom: 10px;
-    font-size: 0.8em;
-    color: #aaa;
-}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    .player-container {
+        background: rgba(255,255,255,0.05);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h1 {
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    audio {
+        width: 100%;
+        outline: none;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .metadata {
+        font-size: 1.1em;
+        margin-top: 10px;
+    }
+    .btn {
+        background: #ff0066;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: 0.3s;
+    }
+    .btn:hover {
+        background: #ff3399;
+    }
 </style>
 </head>
 <body>
-<h1>🎵 Radio Kinzora</h1>
-<p>Écoutez notre radio en direct !</p>
-<audio controls autoplay>
-  <source src="https://kinzora.out.airtime.pro/kinzora_a?_gl=1*1xji8t1*_gcl_au*ODU1NzUwMzQxLjE3NjU4ODk4MzU.*_ga*NzY3NjkwNDYzLjE3NjU4ODk3Nzk.*_ga_R8CHSCXRQS*czE3NjU4ODk3NzgkbzEkZzEkdDE3NjU4OTMzMzUkajIxJGwwJGg3NjUzMjk3MzA.&_ga=2.154431096.1126818435.1765889780-767690463.1765889779" type="audio/mpeg">
-  Votre navigateur ne supporte pas la lecture audio.
-</audio>
-<footer>© 2025 Radio Kinzora</footer>
+
+<div class="player-container">
+    <h1>Ma Radio</h1>
+    <audio id="radioPlayer" controls autoplay>
+        <source src="https://kinzora.out.airtime.pro:8000/kinzora_b?_gl=1*c4zier*_gcl_au*ODU1NzUwMzQxLjE3NjU4ODk4MzU.*_ga*NzY3NjkwNDYzLjE3NjU4ODk3Nzk.*_ga_R8CHSCXRQS*czE3NjU4ODk3NzgkbzEkZzEkdDE3NjU4OTQxODQkajU1JGwwJGg3NjUzMjk3MzA.&_ga=2.93144669.1126818435.1765889780-767690463.1765889779" type="audio/mpeg">
+        Votre navigateur ne supporte pas la lecture audio.
+    </audio>
+    <div class="metadata" id="currentTrack">Lecture en cours...</div>
+    <div>
+        <button class="btn" onclick="document.getElementById('radioPlayer').play()">▶️ Play</button>
+        <button class="btn" onclick="document.getElementById('radioPlayer').pause()">⏸ Pause</button>
+    </div>
+</div>
+
+<script>
+    const player = document.getElementById('radioPlayer');
+    const trackEl = document.getElementById('currentTrack');
+
+    // Si ton flux fournit des métadonnées Icecast/Shoutcast
+    player.addEventListener('playing', () => {
+        trackEl.textContent = "Lecture en cours...";
+    });
+
+    player.addEventListener('pause', () => {
+        trackEl.textContent = "Lecture en pause.";
+    });
+
+    // Optionnel : mettre à jour les métadonnées via une API tous les X secondes
+    // setInterval(fetchMetadata, 10000);
+    // function fetchMetadata() { ... }
+</script>
+
 </body>
 </html>
